@@ -1,2 +1,12 @@
-node_modules/*
+# Generic Ignores
+.DS_Store
+.lock
+.swp
+.out
+Thumbs.db
+
+#Log Files
+*.log
+
+node_modules/
 npm-debug.log

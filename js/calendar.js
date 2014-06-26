@@ -1,4 +1,13 @@
+
 function layOutDay(events) {
+    var _defaults,
+        _getMiliTime,
+        _makeHtml,
+        _dailyBreakdown,
+        _countMe,
+        _getEvents,
+        _init;
+
     if(events.length<1){
         throw new Error ("No events passed in");
     }
@@ -10,7 +19,7 @@ function layOutDay(events) {
     });
     
     //default options
-    var _defaults = {
+    _defaults = {
         myDay: new Date(),
         startHour: 9,
         endHour: 21,
@@ -27,20 +36,21 @@ function layOutDay(events) {
         }
     };
 
-    var getMiliTime = function(h){
+    _getMiliTime = function(h){
         var tempDay = _defaults.myDay.setHours(h,0,0);
         return tempDay;
     };
 
-    var makeHtml = function(tag){
+    //helper function for creating dom elements.
+    _makeHtml = function(tag){
         return document.createElement(tag);
     };
 
-    var dailyBreakdown = function(){
+    _dailyBreakdown = function(){
         var intMili = _defaults.minDuration*60*1000, //interval converted to milliseconds
-            i = getMiliTime(_defaults.startHour),
-            rangeEnd = getMiliTime(_defaults.endHour),
-            hUl = makeHtml(_defaults.html.timeLineContainer),
+            i = _getMiliTime(_defaults.startHour),
+            rangeEnd = _getMiliTime(_defaults.endHour),
+            hUl = _makeHtml(_defaults.html.timeLineContainer),
             timelineContainer = document.getElementsByClassName(_defaults.classes.timeLineContainer)[0],
             totalMinutes = 0,
             d,h,m,
@@ -60,7 +70,7 @@ function layOutDay(events) {
             meridian = (h < 12) ? 'AM' : 'PM';
             meridian = '<span class="meridian">' + meridian + '</span>';
             
-            timeLi = makeHtml(_defaults.html.timeLineItem);
+            timeLi = _makeHtml(_defaults.html.timeLineItem);
             timeLi.className = _defaults.classes.hour;         
             
             if(m==30){
@@ -76,7 +86,7 @@ function layOutDay(events) {
         }
     };
 
-    var getEvents = function(){
+    _getEvents = function(){
         var e=0, 
             evLength = events.length,
             group = 1,
@@ -96,7 +106,7 @@ function layOutDay(events) {
         }        
     };
 
-    var countMe = function(prop,value){
+    _countMe = function(prop,value){
         var count = 0,
             i = 0;
         for(;i < events.length;i++){
@@ -107,22 +117,25 @@ function layOutDay(events) {
         return count;
     };
 
-    var init = (function(){
-        dailyBreakdown();
-        getEvents();
+    _init = (function(){
+        _dailyBreakdown();
+        _getEvents();
         var e=0,
             evLength = events.length,
             lcount = 0,
-            ev, evDuration, eDiv, 
+            ev, evDuration, eDiv, eDivWrapper, 
             numEvents, divPadding, divWidth, divLeft, divHeight;
+            eDivWrapper = _makeHtml('div');
+            eDivWrapper.className = 'split_wrap';
         for(;e < evLength;e++){
             ev = events[e];
             evDuration = ev.end - ev.start;
-            eDiv = makeHtml('div');
+
+            eDiv = _makeHtml('div');
             if(ev.hasOwnProperty('class')){
                 //divide them up
                 eDiv.className = 'split ';
-                numEvents = countMe('class', ev.class);
+                numEvents = _countMe('class', ev.class);
                 divPadding = 20;
                 divWidth = Math.floor((600-divPadding) / numEvents);
                 divLeft = (lcount > 0) ? (divWidth * lcount) + (10 * lcount) : divWidth * lcount;
@@ -144,5 +157,5 @@ function layOutDay(events) {
     })();
 }   
 
-var eventsInput = [{start:180, end: 190},{start:190, end: 210},{start:210, end:250}, {start: 30, end: 150}, {start: 240, end: 450},{start: 300, end: 450},{start:455, end: 535},{start: 540, end: 600}, {start: 560, end: 620}, {start: 610, end: 670} ];
+var eventsInput = [{start:30, end: 90},{start:190, end: 210},{start:210, end:250}, {start: 30, end: 150}, {start: 240, end: 450},{start: 300, end: 450},{start:455, end: 535},{start: 540, end: 600}, {start: 560, end: 620}, {start: 610, end: 670} ];
 layOutDay(eventsInput);
