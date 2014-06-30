@@ -1,12 +1,12 @@
 function layOutDay(events) {
     if(events.length<1){
-        throw new Error ("No events passed in;");
-        return false;
+        throw new Error ("No events passed in");
     }
+
     //sorting out the array by start time;
     events.sort(function(a,b){
-        if( a['start'] == b['start'] ) return 0;
-        return (a['start'] > b ['start']) ? 1 : -1;
+        if( a.start == b.start ) return 0;
+        return (a.start > b.start) ? 1 : -1;
     });
     
     //default options
@@ -49,11 +49,13 @@ function layOutDay(events) {
 
         timelineContainer.appendChild(hUl);
         for(;i<=rangeEnd;i+=intMili){
-            d = new Date(i),
-            h = d.getHours(),
-            m = d.getMinutes(),
-
-            totalMinutes = (m==30) ? totalMinutes+30 : (h-9) * 60;
+            d = new Date(i);
+            h = d.getHours();
+            m = d.getMinutes();
+            totalMinutes = (h-9)*60;
+            if(m === 30){
+                totalMinutes+=30;
+            }
             
             meridian = (h < 12) ? 'AM' : 'PM';
             meridian = '<span class="meridian">' + meridian + '</span>';
@@ -72,7 +74,7 @@ function layOutDay(events) {
             timeLi.innerHTML =  h + ':' + m + meridian; //set html
             hUl.appendChild(timeLi); //add element to dom.
         }
-    }
+    };
 
     var getEvents = function(){
         var e=0, 
@@ -96,7 +98,7 @@ function layOutDay(events) {
 
     var countMe = function(prop,value){
         var count = 0,
-            i = 0
+            i = 0;
         for(;i < events.length;i++){
             if(events[i].hasOwnProperty(prop) && events[i][prop] == value){
                 count++;

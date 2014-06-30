@@ -1,0 +1,28 @@
+{
+  "name": "calendar",
+  "version": "0.0.0",
+  "description": "calendar ========",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt": "^0.4.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.10.0",
+    "load-grunt-config": "^0.10.0",
+    "time-grunt": "^0.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aniculescu/calendar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aniculescu/calendar/issues"
+  },
+  "homepage": "https://github.com/aniculescu/calendar"
+}
