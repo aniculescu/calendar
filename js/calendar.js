@@ -1,4 +1,17 @@
+/*
+ conflict identifier
+ var eventsInput = [{start:30, end: 90},{start:60, end: 210},{start:220, end:250}];
+var x,y;
+var len = eventsInput.length;
+for(x=0;x<len;x++){
+    for(y=x+1;y<len;y++){
+        if(eventsInput[x].start < eventsInput[y].start && eventsInput[x].end > eventsInput[y].start){
+            eventsInput[y].conflict = true;
+        }
+    }
+}
 
+*/
 function layOutDay(events) {
     var _defaults,
         _getMiliTime,
