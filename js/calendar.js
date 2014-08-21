@@ -1,4 +1,13 @@
-
+/* TODO:
+ *  event conflicts:
+ *   - iterate(recurse) thrhough events and build a tree structure denoting event overlaps
+ *   - events displayed in the first column are parent nodes with possible children
+ *     (represeting conflicting/overlapping events)
+ *  event display:
+ *   - looping through the new event tree structure, calculate node children to identify
+ *     shared width and order
+ */
+ 
 function layOutDay(events) {
     var _defaults,
         _getMiliTime,
@@ -6,6 +15,9 @@ function layOutDay(events) {
         _dailyBreakdown,
         _countMe,
         _getEvents,
+        _shwoEvents,
+        _timelineVisible = false,
+        _runCount = 0,
         _init;
 
     if(events.length<1){
@@ -56,7 +68,7 @@ function layOutDay(events) {
             d,h,m,
             meridian = 'AM',
             timeLi;
-
+        _timelineVisible = true;
         timelineContainer.appendChild(hUl);
         for(;i<=rangeEnd;i+=intMili){
             d = new Date(i);
@@ -105,21 +117,7 @@ function layOutDay(events) {
             }
         }        
     };
-
-    _countMe = function(prop,value){
-        var count = 0,
-            i = 0;
-        for(;i < events.length;i++){
-            if(events[i].hasOwnProperty(prop) && events[i][prop] == value){
-                count++;
-            }
-        }
-        return count;
-    };
-
-    _init = (function(){
-        _dailyBreakdown();
-        _getEvents();
+    _showEvents = function(){
         var e=0,
             evLength = events.length,
             lcount = 0,
@@ -154,8 +152,25 @@ function layOutDay(events) {
 
             document.getElementsByClassName('events')[0].appendChild(eDiv);
         }
+    };
+    _countMe = function(prop,value){
+        var count = 0,
+            i = 0;
+        for(;i < events.length;i++){
+            if(events[i].hasOwnProperty(prop) && events[i][prop] == value){
+                count++;
+            }
+        }
+        return count;
+    };
+
+    _init = (function(){
+        _dailyBreakdown();
+        _getEvents();
+        _showEvents();
     })();
 }   
 
-var eventsInput = [{start:30, end: 90},{start:190, end: 210},{start:210, end:250}, {start: 30, end: 150}, {start: 240, end: 450},{start: 300, end: 450},{start:455, end: 535},{start: 540, end: 600}, {start: 560, end: 620}, {start: 610, end: 670} ];
+//var eventsInput = [{start:30, end: 90},{start:190, end: 210},{start:210, end:250}, {start: 30, end: 150}, {start: 240, end: 450},{start: 300, end: 450},{start:455, end: 535},{start: 540, end: 600}, {start: 560, end: 620}, {start: 610, end: 670} ];
+var eventsInput = [ {start: 30, end: 150}, {start: 540, end: 600}, {start: 560, end: 620}, {start: 610, end: 670} ];
 layOutDay(eventsInput);
