@@ -16,12 +16,10 @@ function layOutDay(events) {
         _dailyBreakdown,
         _countMe,
         _getEvents,
-        _shwoEvents,
-        _timelineVisible = false,
-        _runCount = 0,
+        _showEvents,
         _init;
 
-    if(events.length<1){
+    if(typeof events === "undefined" || events.length < 1){
         throw new Error ("No events passed in");
     }
 
@@ -69,8 +67,7 @@ function layOutDay(events) {
             d,h,m,
             meridian = 'AM',
             timeLi;
-        _timelineVisible = true;
-        timelineContainer.appendChild(hUl);
+
         for(;i<=rangeEnd;i+=intMili){
             d = new Date(i);
             h = d.getHours();
@@ -97,6 +94,7 @@ function layOutDay(events) {
             timeLi.innerHTML =  h + ':' + m + meridian; //set html
             hUl.appendChild(timeLi); //add element to dom.
         }
+        timelineContainer.innerHTML = hUl.outerHTML;        
     };
 
     _getEvents = function(){
@@ -166,7 +164,9 @@ function layOutDay(events) {
     };
 
     _init = (function(){
-        _dailyBreakdown();
+        if(document.querySelector("." + _defaults.classes.timelineContainer + " > " + _defaults.html.timelineContainer)=== null){
+            _dailyBreakdown();
+        }        
         _getEvents();
         _showEvents();
     })();
