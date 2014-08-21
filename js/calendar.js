@@ -8,6 +8,7 @@
  *     shared width and order
  */
  
+
 function layOutDay(events) {
     var _defaults,
         _getMiliTime,
